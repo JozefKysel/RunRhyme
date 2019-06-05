@@ -1,0 +1,19 @@
+{
+  "name": "solo-project",
+  "version": "1.0.0",
+  "description": "bpm Playlist is an app that allows you to customize your playlist depending on the intensity of your run.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JozefKysel/bpmPlaylist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JozefKysel/bpmPlaylist/issues"
+  },
+  "homepage": "https://github.com/JozefKysel/bpmPlaylist#readme"
+}

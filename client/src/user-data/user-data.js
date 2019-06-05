@@ -13,15 +13,25 @@ function UserData() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (distance && time){
-      setPace(Math.round(distance/time * 10) / 10);
-      setBpm(171);
-      setDistance(0);
-      setTime(0);
+      resetStates();
+      setPaceAndBpm();
     }
   };
+
+  const resetStates = () => {
+    setDistance(0);
+    setTime(0);
+  }
+
+  const setPaceAndBpm = () => {
+    setPace(Math.round(distance/time * 10) / 10);
+    setBpm(171);
+  }
+
   const handleDistance = (value) => {
     setDistance(value);
   }
+
   const handleTime = (value) => {
     setTime(value);
   }
