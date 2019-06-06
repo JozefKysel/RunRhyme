@@ -6,5 +6,6 @@ const api = require('../api-client');
 router.get('/login', auth.getAccess);
 router.get('/playlist', api.getPlaylist);
 router.get('/tokens', auth.getTokens);
+router.get('/refresh_token', auth.refreshTokens);
 
 module.exports = router;

@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
 import NumericInput from 'react-numeric-input';
-import api from '../api-client';
 import './user-data.css';
 
-function UserData() {
+function UserData({ refreshTokenAndGetPlaylist, logged }) {
 
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
-  const [pace, setPace] = useState(0);
-  const [bpm, setBpm] = useState(0);
+
+  const pace = Math.round(distance/time * 10) / 10;
+  const calcBpm = () => {
+    if (pace <= 4) return 171;
+    else if (pace <= 5) return 166;
+    else if (pace <= 6) return 163;
+    else if (pace <= 7) return 160;
+    else if (pace <= 8) return 156;
+    else if (pace <= 9) return 153;
+    else if (pace <= 10) return 150;
+   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (distance && time){
-      resetStates();
-      setPaceAndBpm();
+    if (distance && time) {
+      refreshTokenAndGetPlaylist();
+      setDistance(0);
+      setTime(0);
     }
   };
-
-  const resetStates = () => {
-    setDistance(0);
-    setTime(0);
-  }
-
-  const setPaceAndBpm = () => {
-    setPace(Math.round(distance/time * 10) / 10);
-    setBpm(171);
-  }
 
   const handleDistance = (value) => {
     setDistance(value);
@@ -43,10 +42,9 @@ function UserData() {
         run duration: <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>min
         <input type="submit" value="Submit"/>
       </form>
-      <div>Pace {pace} min per km</div>
-      <div>Estimated bpm is {bpm}</div>
-    </div>
-  );
+      <div>Pace {pace > 0 && pace} min per km</div>
+      <div>Estimated bpm is {calcBpm()}</div>
+    </div>)
 }
 
 export default UserData;

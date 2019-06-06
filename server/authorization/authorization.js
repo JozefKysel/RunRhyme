@@ -1,10 +1,9 @@
-const client_id = '8bcddab633c447df9731da38ef655ecf';
-const client_secret = '0be10090cb3c4a958221c4365f4740e6';
+
 const redirect_uri = 'http://localhost:3000';
-const request = require('request');
 const url = 'https://accounts.spotify.com/api/token';
-let refresh_token;
-let access_token;
+const request = require('request');
+const atob = require('atob');
+const btoa = require('btoa');
 
 exports.getAccess = (req, res) => {
   const scopes = 'user-read-private user-read-email';
@@ -25,12 +24,32 @@ exports.getTokens = (req, res) => {
       grant_type: 'authorization_code'
     },
     headers: {
-      'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+      'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
     },
     json: true
   };
   request.post(authOptions, (error, response, body) => {
-    exports.access_token = body.access_token;
-    exports.refresh_token = body.refresh_token;
+    res.send(JSON.stringify(body.refresh_token));
   })
+}
+
+exports.refreshTokens =  (req,res) => {
+  const refresh_token = atob(req.headers.authorization.split(' ')[1]);
+  try {
+    const authOptions = {
+      url: url,
+      headers: {'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)},
+      form: {
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token
+      },
+      json: true
+    };
+    request.post(authOptions, (err, response, body) => {
+      res.send(JSON.stringify(body.access_token))
+      res.status(200);
+    });
+  } catch(e) {
+    res.status(500);
+  }
 }
