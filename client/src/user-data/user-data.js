@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NumericInput from 'react-numeric-input';
 import './user-data.css';
 
-function UserData({ refreshTokenAndGetPlaylist, logged }) {
+function UserData({ getBpmPlaylist }) {
 
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
@@ -21,7 +21,7 @@ function UserData({ refreshTokenAndGetPlaylist, logged }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (distance && time) {
-      refreshTokenAndGetPlaylist();
+      getBpmPlaylist(calcBpm());
       setDistance(0);
       setTime(0);
     }
@@ -37,9 +37,9 @@ function UserData({ refreshTokenAndGetPlaylist, logged }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        run distance: <NumericInput step={0.5} value={time} min={0} onChange={(value) => handleTime(value)}/>km
-        run duration: <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>min
+      <form className="forms" onSubmit={handleSubmit}>
+        <NumericInput step={0.5} value={time} min={0} onChange={(value) => handleTime(value)}/>
+        <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>
         <input type="submit" value="Submit"/>
       </form>
       <div>Pace {pace > 0 && pace} min per km</div>

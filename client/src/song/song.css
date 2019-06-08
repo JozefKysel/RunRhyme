@@ -1,0 +1,24 @@
+.add {
+  background: url('../assets/btn-add.svg');
+  width: 25px;
+  height: 25px;
+  border: none;
+  outline: none;
+  margin-left: 270px;
+  margin-bottom: 5px;
+}
+
+.delete {
+  background: url('../assets/btn-added.svg');
+  width: 25px;
+  height: 25px;
+  border: none;
+  outline: none;
+  margin-left: 270px;
+  margin-bottom: 5px;
+}
+
+.item {
+  background-color: rgb(128 , 127, 128);
+  margin: 25px;
+}
