@@ -41,13 +41,14 @@ function UserData({ getBpmPlaylist }) {
     <div>
       <form className="forms" onSubmit={handleSubmit}>
         <NumericInput step={0.5} value={time} min={0} onChange={(value) => handleTime(value)}/>
-        <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>
+        <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>km
         <input type="submit" value="Submit"/>
-        <TimePicker defaultOpenValue={moment('00:00:00', 'HH:mm:ss')} />
+        <TimePicker defaultOpenValue={moment('00:00:00', 'HH:mm:ss')} onChange={(value) => handleTime(value)} size="large"/>
       </form>
       <div>Pace {pace > 0 && pace} min per km</div>
       <div>Estimated bpm is {calcBpm()}</div>
-    </div>)
+    </div>
+  );
 }
 
 export default UserData;

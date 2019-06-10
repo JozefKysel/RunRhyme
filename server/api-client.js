@@ -30,10 +30,11 @@ exports.getUserData = async (req, res ) => { 
         'Authorization': `Bearer ${access_token}`
       }
     }, (err, response, body) => {
+      res.status(200);
       res.send(body);
     });
   } catch (e) {
-    console.log(e);
+    res.status(500);
   }
 }
 
@@ -53,26 +54,26 @@ exports.transferPlayback = (req, res) => {
         'play': false,
       })
     });
-    res.end()
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-// USED FOR SEEDING DATABASE
-exports.getPlaylist = async (req, res) => {
-  const access_token = atob(req.headers.authorization.split(' ')[1]);
-  const playlistID = req.params.id;
-  try {
-    const data = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
-      headers: {
-        'Authorization': `Bearer ${access_token}`,
-        'Content-Type': 'application/json'
-        }
-    });
-    res.send(JSON.stringify(data));
-    res.status(200);
+    res.status(200).end();
   } catch (e) {
     res.status(500);
   }
 }
+
+// USED FOR DATABASE SEEDING
+// exports.getPlaylist = async (req, res) => {
+//   const access_token = atob(req.headers.authorization.split(' ')[1]);
+//   const playlistID = req.params.id;
+//   try {
+//     const data = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
+//       headers: {
+//         'Authorization': `Bearer ${access_token}`,
+//         'Content-Type': 'application/json'
+//         }
+//     });
+//     res.send(JSON.stringify(data));
+//     res.status(200);
+//   } catch (e) {
+//     res.status(500);
+//   }
+// }

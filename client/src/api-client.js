@@ -1,5 +1,4 @@
 const params = window.location.search;
-const btoa = require('btoa');
 
 exports.getTokens = () => fetch(`http://localhost:4000/tokens/${params}`);
 exports.getPlaylist = (intensity) => fetch(`http://localhost:4000/playlist/${intensity}`);
@@ -11,7 +10,7 @@ exports.deleteSong = (song) => fetch(`http://localhost:4000/delete`, {
 exports.refreshTokens = (token) => fetch(`http://localhost:4000/refresh_token`, {
   method: 'GET',
   headers: {
-    'Authorization': `Bearer ${btoa(token)}`
+    'Authorization': `Bearer ${token}`
   }
 });
 

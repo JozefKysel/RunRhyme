@@ -1,6 +1,4 @@
-const client_id = '8bcddab633c447df9731da38ef655ecf';
-const client_secret = '0be10090cb3c4a958221c4365f4740e6';
-const redirect_uri = 'http://localhost:3000/login';
+const { client_id, client_secret, redirect_uri } = require('../config');
 const url = 'https://accounts.spotify.com/api/token';
 const request = require('request');
 const atob = require('atob');
@@ -39,7 +37,7 @@ exports.getTokens = (req, res) => {
 }
 
 exports.refreshTokens =  (req,res) => {
-  const refresh_token = atob(req.headers.authorization.split(' ')[1]);
+  const refresh_token = req.headers.authorization.split(' ')[1];
   try {
     const authOptions = {
       url: url,
