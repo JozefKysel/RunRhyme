@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import NumericInput from 'react-numeric-input';
 import './user-data.css';
+import { TimePicker } from 'antd';
+import moment from 'moment';
 
 function UserData({ getBpmPlaylist }) {
 
@@ -41,6 +43,7 @@ function UserData({ getBpmPlaylist }) {
         <NumericInput step={0.5} value={time} min={0} onChange={(value) => handleTime(value)}/>
         <NumericInput step={5} value={distance} min={0} onChange={(value) => handleDistance(value)}/>
         <input type="submit" value="Submit"/>
+        <TimePicker defaultOpenValue={moment('00:00:00', 'HH:mm:ss')} />
       </form>
       <div>Pace {pace > 0 && pace} min per km</div>
       <div>Estimated bpm is {calcBpm()}</div>

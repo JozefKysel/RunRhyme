@@ -20,7 +20,7 @@ function Dashboard() {
   useEffect(() => {
     api.getUserData()
       .then(res => res.json())
-      .then(res => setUserInfo(res))
+      .then(res => setUserInfo(res));
   }, [])
 
   const getBpmPlaylist = (bpm) => {

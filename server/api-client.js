@@ -1,5 +1,6 @@
 const auth = require('./authorization/authorization');
 const request = require('request');
+const atob = require('atob');
 
 exports.setPlay = (req, res) => {
   const access_token = req.headers.authorization.split(' ')[1];
@@ -14,8 +15,9 @@ exports.setPlay = (req, res) => {
       },
       json: {"uris": [`spotify:track:${songId}`]}
     });
+    res.status(200).end();
   } catch (e) {
-    console.log(e);
+    res.status(500);
   }
 }
 
@@ -51,25 +53,26 @@ exports.transferPlayback = (req, res) => {
         'play': false,
       })
     });
+    res.end()
   } catch (e) {
     console.log(e);
   }
 }
 
 // USED FOR SEEDING DATABASE
-// exports.getPlaylist = async (req, res) => {
-//   const access_token = atob(req.headers.authorization.split(' ')[1]);
-//   const playlistID = req.params.id;
-//   try {
-//     const data = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
-//       headers: {
-//         'Authorization': `Bearer ${access_token}`,
-//         'Content-Type': 'application/json'
-//         }
-//     });
-//     res.send(JSON.stringify(data));
-//     res.status(200);
-//   } catch (e) {
-//     res.status(500);
-//   }
-// }
+exports.getPlaylist = async (req, res) => {
+  const access_token = atob(req.headers.authorization.split(' ')[1]);
+  const playlistID = req.params.id;
+  try {
+    const data = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/json'
+        }
+    });
+    res.send(JSON.stringify(data));
+    res.status(200);
+  } catch (e) {
+    res.status(500);
+  }
+}
