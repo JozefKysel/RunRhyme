@@ -1,11 +1,10 @@
 const { client_id, client_secret, redirect_uri } = require('../config');
 const url = 'https://accounts.spotify.com/api/token';
 const request = require('request');
-const atob = require('atob');
 const btoa = require('btoa');
 
 exports.getAccess = (req, res) => {
-  const scopes = 'streaming user-read-birthdate user-read-email user-read-private user-modify-playback-state';
+  const scopes = 'streaming user-read-birthdate user-read-email user-read-private user-modify-playback-state user-read-playback-state user-read-recently-played';
   res.redirect('https://accounts.spotify.com/authorize' +
   '?response_type=code' +
   '&client_id=' + client_id +
@@ -36,7 +35,7 @@ exports.getTokens = (req, res) => {
   }
 }
 
-exports.refreshTokens =  (req,res) => {
+exports.refreshTokens =  (req, res) => {
   const refresh_token = req.headers.authorization.split(' ')[1];
   try {
     const authOptions = {

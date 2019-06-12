@@ -6,7 +6,7 @@ exports.getPlaylist = async (req, res) => {
     const response = await Model.Song.find({bpm: +req.params.id});
     res.send(response);
   } catch (e) {
-    console.log(e);
+    res.status(500);
   }
 }
 
@@ -16,7 +16,6 @@ exports.deleteSong = async (req, res) => {
     await Model.MySong.deleteOne({song_id: song._id});
   } catch (e) {
     res.status(500);
-    console.log(e);
   }
 }
 
@@ -40,7 +39,7 @@ exports.saveSong = async (req, res) => {
     await mySong.save();
     res.send(mySong);
   } catch (e) {
-    console.log(e);
+    res.status(500);
   }
 }
 

@@ -10,7 +10,7 @@ router.post('/save', controller.saveSong);
 router.get('/refresh_token', auth.refreshTokens);
 router.get('/tokens', auth.getTokens);
 router.get('/login', auth.getAccess);
-router.put('/setplay/:songId', api.setPlay);
+router.put('/setplay/:playlist', api.setPlay);
 router.get('/userdata', api.getUserData);
 router.put('/transfer/:deviceId', api.transferPlayback);
 

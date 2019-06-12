@@ -1,6 +1,7 @@
 const params = window.location.search;
 
 exports.getTokens = () => fetch(`http://localhost:4000/tokens/${params}`);
+
 exports.getPlaylist = (intensity) => fetch(`http://localhost:4000/playlist/${intensity}`);
 
 exports.deleteSong = (song) => fetch(`http://localhost:4000/delete`, {
@@ -29,7 +30,7 @@ exports.saveSong = (song) => fetch(`http://localhost:4000/save`, {
   body: JSON.stringify(song)
 });
 
-exports.setPlay = (songId) => fetch(`http://localhost:4000/setplay/${songId}`, {
+exports.setPlay = (playlist) => fetch(`http://localhost:4000/setplay/${playlist}`, {
   method: 'PUT',
   headers: {
     'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
@@ -44,7 +45,7 @@ exports.transferPlayback = (deviceId) => fetch(`http://localhost:4000/transfer/$
 })
 
 // USED FOR CHECKING SONG PROPERTIES
-// exports.getSpotify = (token) => fetch(`http://localhost:4000/spotify/0mW4R77jxPXSrkH6NqFIkk`, {
+// exports.getSpotify = (tokens) => fetch(`http://localhost:4000/spotify/0mW4R77jxPXSrkH6NqFIkk`, {
 //   method: 'GET',
 //   headers: {
 //     'Authorization': 'Bearer ' + btoa(token)

@@ -2,9 +2,9 @@ const auth = require('./authorization/authorization');
 const request = require('request');
 const atob = require('atob');
 
-exports.setPlay = (req, res) => {
+exports.setPlay = async(req, res) => {
   const access_token = req.headers.authorization.split(' ')[1];
-  const { songId } = req.params;
+  const playlist = req.params.playlist.split(',');
   try {
     request.put({
       url: `https://api.spotify.com/v1/me/player/play`,
@@ -13,9 +13,10 @@ exports.setPlay = (req, res) => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      json: {"uris": [`spotify:track:${songId}`]}
+      json: {"uris": playlist}
+    }, (err, response, body) => {
+      res.status(200).end();
     });
-    res.status(200).end();
   } catch (e) {
     res.status(500);
   }

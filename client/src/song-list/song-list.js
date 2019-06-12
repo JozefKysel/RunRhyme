@@ -1,12 +1,16 @@
 import React from 'react';
-import './song-list.css';
+import './song-list.less';
 import Song from '../song/song';
 
 function SongList({ playList }) {
 
-  return playList.length > 0 && playList.map(song => 
-    <div key={song._id} className="songs">
-      <Song song={song}/>
+  return (
+     <div className="list">
+      {playList.length > 0 && playList.map(song => 
+        <div key={song._id} className="song">
+          <Song song={song}/>
+          </div>
+      )}
     </div>
   );
 }

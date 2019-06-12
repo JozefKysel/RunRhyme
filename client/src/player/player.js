@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
-import './player.css';
-import { PlayerIcon } from 'react-player-controls';
+import './player.less';
 import api from '../api-client';
 export const playerInfo = {};
 
-function Player () {
 
-  const [device_id, setDeviceID] = useState('');
+function Player () {
+  const [songState, setSongState] = useState({
+    trackName: 'trackName',
+    albumName: 'albumName',
+    artistName: 'artistName',
+    playing: 'playing'
+  });
+
   const playerCheckInterval = setInterval(() => checkForPlayer(), 1000);
-  const checkForPlayer = () => {
-    if (window.Spotify !== null) {
+
+  const checkForPlayer = async () => {
+    if (window.Spotify !== null && !playerInfo.player) {
       playerInfo.player = new window.Spotify.Player({
         name: 'this player',
         getOAuthToken: cb => { cb (window.localStorage.getItem('accessToken') )}
       });
-      playerInfo.player.connect().then(success => success ? console.log('player connected') : console.log('not connected'));
+      await playerInfo.player.connect();
       clearInterval(playerCheckInterval);
       createEventHandlers();
     }
   }
   const createEventHandlers = () => {
-    playerInfo.player.on('player_state_changed', state => { console.log(state); });
+    const device_id = window.localStorage.getItem('_spharmony_device_id')
+    const access_token = window.localStorage.getItem('accessToken');
+    playerInfo.player.on('player_state_changed', (state) => state && onStateChanged(state));
+    playerInfo.player.on('ready', data => api.transferPlayback(device_id, access_token));
+  }
 
-    // Ready
-    playerInfo.player.on('ready', async data => {
-      let { device_id } = data;
-      await setDeviceID(device_id);
-      api.transferPlayback(device_id, window.localStorage.getItem('accessToken'))
+  const onStateChanged = (state) => {
+    const { current_track: currentTrack } = state.track_window;
+    const trackName = currentTrack.name;
+    const albumName= currentTrack.album.name;
+    const artistName = currentTrack.artists
+      .map(artist => artist.name).join(', ');
+    const playing = !state.paused;
+    setSongState({
+      trackName,
+      albumName,
+      artistName,
+      playing
     });
   }
 
@@ -48,13 +65,21 @@ function Player () {
 
   return (
     <div className="player">
-      <PlayerIcon.Previous onClick={onPrevClick}/>
-      <PlayerIcon.Play onClick={onPlayClick}/>
-      <PlayerIcon.Next onClick={onNextClick}/>
-      <input type="range" max={1} min={0} step={0.01} onChange={setVolume}></input>
-      <button>play this playlist</button>
+      <div className="artist">{songState.artistName.slice(0,10)} - {songState.trackName.slice(0, 10)}</div>
+      <div className="buttons">
+        <button className="round-button side" onClick={onPrevClick}>
+        <img className="left" src="https://img.icons8.com/material-rounded/24/000000/play.png" alt="prev"/></button>
+        <button className="round-button" onClick={onPlayClick}>
+        <img className="middle" src={`https://img.icons8.com/material-rounded/48/000000/${songState.playing ? 'pause' : 'play'}.png`} alt="play"/></button>
+        <button className="round-button side" onClick={onNextClick}>
+        <img className="right" src="https://img.icons8.com/material-rounded/24/000000/play.png" alt="next"/></button>
+      </div>
+      <div className="volume">
+        <i className="material-icons">volume_up</i>
+        <input type="range" step={0.1} min={0} max={1} className="slider" onChange={setVolume}/>
+      </div>
     </div>
-  )
+  );
 }
 
 export default Player;
