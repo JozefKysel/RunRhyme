@@ -71,39 +71,7 @@ exports.refreshTokens = async (req, res) => {
   }
 }
 
-// exports.deleteSong = async (req, res) => {
-//   try {
-//     const song = req.body;
-//     await Model.MySong.deleteOne({song_id: song._id});
-//   } catch (e) {
-//     res.status(500);
-//   }
-// }
-
-// exports.saveSong = async (req, res) => {
-//   try {
-//     const song = req.body;
-//     const mySong = new Model.MySong({
-//       album_artists_href: song.album_artists_href,
-//       album_artists_name: song.album_artists_name,
-//       album_href: song.album_href,
-//       album_cover_url: song.album_cover_url,
-//       album_name: song.album_name,
-//       album_id: song.album_id,
-//       song_name: song.song_name,
-//       duration_ms: song.duration_ms,
-//       song_href: song.song_href,
-//       song_id: song.song_id,
-//       bpm: song.bpm,
-//       my: song.my
-//     })
-//     await mySong.save();
-//     res.send(mySong);
-//   } catch (e) {
-//     res.status(500);
-//   }
-// }
-
+// USED FOR DATABASE SEEDING
 // exports.saveSongs = (req, res) => {
 //   try {
 //     console.log('here');

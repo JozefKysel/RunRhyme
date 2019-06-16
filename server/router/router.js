@@ -16,9 +16,6 @@ router.put('/setplay/:playlist', verifyToken, controller.setPlay);
 router.get('/userdata', verifyToken, controller.getUserData);
 router.put('/transfer/:deviceId', verifyToken, controller.transferPlayback);
 
-// THIS IS NOT NEEDED
-// router.delete('/delete', controller.deleteSong);
-// router.post('/save', controller.saveSong);
 // THESE TWO ARE USED FOR DATABASE SEEDING
 // router.get('/spotify/:id',api.getPlaylist);
 // router.post('/seed', controller.saveSongs);
