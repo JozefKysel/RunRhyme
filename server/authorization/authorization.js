@@ -36,14 +36,15 @@ exports.getTokens = (req, res) => {
 }
 
 exports.refreshTokens =  (req, res) => {
-  const refresh_token = req.headers.authorization.split(' ')[1];
   try {
     const authOptions = {
       url: url,
-      headers: {'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)},
+      headers: {
+        'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
+      },
       form: {
         grant_type: 'refresh_token',
-        refresh_token: refresh_token
+        refresh_token: req.token
       },
       json: true
     };

@@ -1,15 +1,12 @@
-const auth = require('./authorization/authorization');
 const request = require('request');
-const atob = require('atob');
 
 exports.setPlay = async(req, res) => {
-  const access_token = req.headers.authorization.split(' ')[1];
   const playlist = req.params.playlist.split(',');
   try {
     request.put({
       url: `https://api.spotify.com/v1/me/player/play`,
       headers: {
-        'Authorization': `Bearer ${access_token}`,
+        'Authorization': `Bearer ${req.token}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
@@ -24,11 +21,10 @@ exports.setPlay = async(req, res) => {
 
 exports.getUserData = async (req, res ) => { 
   try {
-    const access_token = req.headers.authorization.split(' ')[1];
     request.get({
       url: 'https://api.spotify.com/v1/me',
       headers: {
-        'Authorization': `Bearer ${access_token}`
+        'Authorization': `Bearer ${req.token}`
       }
     }, (err, response, body) => {
       res.status(200);
@@ -41,13 +37,12 @@ exports.getUserData = async (req, res ) => { 
 
 exports.transferPlayback = (req, res) => {
   try {
-    const access_token = req.headers.authorization.split(' ')[1];
     const { deviceId } = req.params;
     request.put({
       uri: 'https://api.spotify.com/v1/me/player',
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${access_token}`,
+        'Authorization': `Bearer ${req.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
