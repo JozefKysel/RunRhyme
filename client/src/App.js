@@ -1,14 +1,15 @@
 import React from 'react';
-import Dashboard from './dashboard/dashboard';
-import Login from './login/login';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Dashboard, Login, PrivateRoutes } from './components';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.less';
 
 function App() {
   return (
     <BrowserRouter>
-      <Route path='/' component={Dashboard} exact/>
-      <Route path='/login' component={Login}/>
+      <Switch>
+        <PrivateRoutes component={Dashboard} exact path='/'/>
+        <Route path='/login' component={Login}/>
+      </Switch>
     </BrowserRouter>
   );
 }

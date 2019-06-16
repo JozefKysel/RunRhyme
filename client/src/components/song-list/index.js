@@ -1,6 +1,6 @@
 import React from 'react';
 import './song-list.less';
-import Song from '../song/song';
+import { Song } from '..';
 
 function SongList({ playList }) {
 
@@ -9,8 +9,7 @@ function SongList({ playList }) {
       {playList.length > 0 && playList.map(song => 
         <div key={song._id} className="song">
           <Song song={song}/>
-          </div>
-      )}
+        </div>)}
     </div>
   );
 }

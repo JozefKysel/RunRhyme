@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react';
-import api from '../api-client';
+import api from '../../api-client';
 import './login.less'
 
 
 function Login(props) {
+
+  const saveTokenAndRedirect = (res) => {
+    window.localStorage.setItem('accessToken', res);
+    props.history.push('/');
+  }
 
   useEffect(() => {
     api.getTokens()
       .then(res => res.json())
       .then(res => api.refreshTokens(res))
       .then(res => res.json())
-      .then(res => window.localStorage.setItem('accessToken', res))
-      .then(res => props.history.push('/'))
+      .then(res => saveTokenAndRedirect(res))
       .catch(e => console.log(e));
-  })
+  });
 
   return (
     <div className="container">

@@ -11,6 +11,8 @@ function UserData({ getBpmPlaylist }) {
   const [time, setTime] = useState(0);
 
   const pace = Math.round((time/distance) * 10) / 10;
+
+  // needs to be refactored after reorginizing of data in db 
   const calcBpm = () => {
     if (pace <= 4) return 171;
     else if (pace <= 5) return 166;

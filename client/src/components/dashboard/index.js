@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './dashboard.less';
-import UserData from '../user-data/user-data';
-import SongList from '../song-list/song-list';
-import { Redirect } from 'react-router';
+import { UserData, SongList, Player, UserInfo } from '..';
 import { Link }from 'react-router-dom';
-import api from '../api-client';
-import Player, { playerInfo } from '../player/player';
-import UserInfo from '../user-info/user-info';
+import { playerInfo } from '../player';
+import api from '../../api-client';
+import './dashboard.less';
 
 export const SongsContext = React.createContext(null);
 
@@ -28,14 +25,11 @@ function Dashboard() {
       .then(res => setPlaylist(res));
   }
 
-  const addSong = (pickedSong) => {
+  const addToMyPlaylist = pickedSong => {
     pickedSong.my = !pickedSong.my;
-    if (myPlaylist.every(song => song.split(':')[2] !== pickedSong.song_id)) {
-      myPlaylist.push(`spotify:track:${pickedSong.song_id}`);
-      setMyPlaylist(myPlaylist);
-    } else {
-      setMyPlaylist(myPlaylist.filter(element => element.split(':')[2] !== pickedSong.song_id));
-    }
+    !myPlaylist.some(song => song.split(':')[2] === pickedSong.song_id)
+      ? setMyPlaylist(myPlaylist => [...myPlaylist, `spotify:track:${pickedSong.song_id}`])
+      : setMyPlaylist(myPlaylist.filter(element => element.split(':')[2] !== pickedSong.song_id));
   }
 
   const logOut = () => {
@@ -51,9 +45,9 @@ function Dashboard() {
     myPlaylist.length > 0 && api.setPlay(myPlaylist);
   };
 
-  return window.localStorage.getItem('accessToken') ?
-    (<SongsContext.Provider value={{
-      addSong,
+  return (
+    <SongsContext.Provider value={{
+      addToMyPlaylist,
       myPlaylist
     }}>
     <div className='container'>
@@ -70,7 +64,7 @@ function Dashboard() {
       <Player className="player"/>
     </div>
     </SongsContext.Provider>
-  ) : (<Redirect to='login'/>);
+  );
 }
 
 export default Dashboard;

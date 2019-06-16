@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './player.less';
-import api from '../api-client';
+import api from '../../api-client';
 export const playerInfo = {};
 
 
@@ -65,7 +65,7 @@ function Player () {
 
   return (
     <div className="player">
-      <div className="artist">{songState.artistName.slice(0,10)} - {songState.trackName.slice(0, 10)}</div>
+      <div className="artist">{songState.artistName} - {songState.trackName}</div>
       <div className="buttons">
         <button className="round-button side" onClick={onPrevClick}>
         <img className="left" src="https://img.icons8.com/material-rounded/24/000000/play.png" alt="prev"/></button>
