@@ -1,7 +1,7 @@
 const params = window.location.search;
 
+exports.getAccess = () => fetch(`http://localhost:4000/login`);
 exports.getTokens = () => fetch(`http://localhost:4000/tokens/${params}`);
-
 exports.getPlaylist = (intensity) => fetch(`http://localhost:4000/playlist/${intensity}`);
 
 exports.deleteSong = (song) => fetch(`http://localhost:4000/delete`, {

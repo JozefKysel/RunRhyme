@@ -1,8 +1,7 @@
+const controller = require('../controllers/controller');
+const api = require('../api-client');
 const express = require('express');
 const router = express.Router();
-const auth = require('../authorization/authorization');
-const api = require('../api-client');
-const controller = require('../controllers/controller');
 
 const verifyToken = (req, res, next) => {
   req.token = req.headers.authorization.split(' ')[1];
@@ -10,7 +9,7 @@ const verifyToken = (req, res, next) => {
 }
 
 router.get('/tokens', controller.getTokens);
-router.get('/login', auth.getAccess);
+router.get('/login', controller.getAccess);
 router.get('/refresh_token', verifyToken, controller.refreshTokens);
 router.get('/playlist/:id', controller.getPlaylist);
 router.put('/setplay/:playlist', verifyToken, controller.setPlay);

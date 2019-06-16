@@ -1,6 +1,14 @@
+const { client_id, redirect_uri, scopes } = require('../config');
 const Model = require('../db/connection');
 const api = require('../api-client');
-const auth = require('../authorization/authorization');
+
+exports.getAccess = (req, res) => {
+  res.redirect('https://accounts.spotify.com/authorize' +
+  '?response_type=code' +
+  '&client_id=' + client_id +
+  (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  '&redirect_uri=' + encodeURIComponent(redirect_uri));
+}
 
 exports.getPlaylist = async (req, res) => {
   const { id } = req.params;
@@ -46,7 +54,7 @@ exports.transferPlayback = async (req, res) => {
 exports.getTokens = async (req, res) => {
   const code = req.query.code;
   try {
-    const { refresh_token } = await auth.getTokens(code);
+    const { refresh_token } = await api.getTokens(code);
     res.status(200).json(refresh_token);
   } catch(e) {
     res.status(500).end();
@@ -56,7 +64,7 @@ exports.getTokens = async (req, res) => {
 exports.refreshTokens = async (req, res) => {
   const { token } = req;
   try {
-    const { access_token } = await auth.refreshTokens(token);
+    const { access_token } = await api.refreshTokens(token);
     res.status(200).json(access_token);
   } catch(e) {
     res.status(500).end();
