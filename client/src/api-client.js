@@ -1,6 +1,6 @@
 const params = window.location.search;
 
-exports.getTokens = () => fetch(`http://localhost:4000/tokens/${params}`);
+exports.getTokens = () => fetch(`http://localhost:4000/tokens/${params}`);
 
 exports.getPlaylist = (intensity) => fetch(`http://localhost:4000/playlist/${intensity}`);
 

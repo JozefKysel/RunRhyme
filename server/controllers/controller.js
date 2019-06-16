@@ -1,5 +1,6 @@
 const Model = require('../db/connection');
 const api = require('../api-client');
+const auth = require('../authorization/authorization');
 
 exports.getPlaylist = async (req, res) => {
   const { id } = req.params;
@@ -37,6 +38,26 @@ exports.transferPlayback = async (req, res) => {
   try {
     await api.transferPlayback(token, deviceId);
     res.status(200).end();
+  } catch(e) {
+    res.status(500).end();
+  }
+}
+
+exports.getTokens = async (req, res) => {
+  const code = req.query.code;
+  try {
+    const { refresh_token } = await auth.getTokens(code);
+    res.status(200).json(refresh_token);
+  } catch(e) {
+    res.status(500).end();
+  }
+}
+
+exports.refreshTokens = async (req, res) => {
+  const { token } = req;
+  try {
+    const { access_token } = await auth.refreshTokens(token);
+    res.status(200).json(access_token);
   } catch(e) {
     res.status(500).end();
   }

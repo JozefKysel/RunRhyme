@@ -9,9 +9,9 @@ const verifyToken = (req, res, next) => {
   next();
 }
 
-router.get('/tokens', auth.getTokens);
+router.get('/tokens', controller.getTokens);
 router.get('/login', auth.getAccess);
-router.get('/refresh_token', verifyToken, auth.refreshTokens);
+router.get('/refresh_token', verifyToken, controller.refreshTokens);
 router.get('/playlist/:id', controller.getPlaylist);
 router.put('/setplay/:playlist', verifyToken, controller.setPlay);
 router.get('/userdata', verifyToken, controller.getUserData);
