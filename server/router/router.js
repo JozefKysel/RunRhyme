@@ -9,13 +9,13 @@ const verifyToken = (req, res, next) => {
   next();
 }
 
-router.get('/playlist/:id', controller.getPlaylist);
 router.get('/tokens', auth.getTokens);
 router.get('/login', auth.getAccess);
 router.get('/refresh_token', verifyToken, auth.refreshTokens);
-router.put('/setplay/:playlist', verifyToken, api.setPlay);
-router.get('/userdata', verifyToken, api.getUserData);
-router.put('/transfer/:deviceId', verifyToken, api.transferPlayback);
+router.get('/playlist/:id', controller.getPlaylist);
+router.put('/setplay/:playlist', verifyToken, controller.setPlay);
+router.get('/userdata', verifyToken, controller.getUserData);
+router.put('/transfer/:deviceId', verifyToken, controller.transferPlayback);
 
 // THIS IS NOT NEEDED
 // router.delete('/delete', controller.deleteSong);

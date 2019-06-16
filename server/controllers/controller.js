@@ -1,12 +1,44 @@
 const Model = require('../db/connection');
+const api = require('../api-client');
 
 exports.getPlaylist = async (req, res) => {
-  const params = req.params.id;
+  const { id } = req.params;
   try {
-    const response = await Model.Song.find({bpm: +req.params.id});
+    const response = await Model.Song.find({bpm: +id});
     res.send(response);
   } catch (e) {
     res.status(500);
+  }
+}
+exports.setPlay = async (req, res) => {
+  const playlist = req.params.playlist.split(',');
+  const { token } = req;
+  try {
+    await api.setPlay(token, playlist);
+    res.status(200).end();
+  } catch(e) {
+    res.status(500).end();
+  }
+}
+
+exports.getUserData = async (req, res) => {
+  const { token } = req;
+  try {
+    const response = await api.getUserData(token);
+    res.status(200).send(response);
+  } catch(e) {
+    res.status(500);
+  }
+}
+
+exports.transferPlayback = async (req, res) => {
+  const { token } = req;
+  const { deviceId } = req.params;
+  try {
+    await api.transferPlayback(token, deviceId);
+    res.status(200).end();
+  } catch(e) {
+    res.status(500).end();
   }
 }
 

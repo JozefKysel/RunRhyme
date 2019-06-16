@@ -1,59 +1,43 @@
-const request = require('request');
+const request = require('request-promise');
 
-exports.setPlay = async(req, res) => {
-  const playlist = req.params.playlist.split(',');
-  try {
-    request.put({
-      url: `https://api.spotify.com/v1/me/player/play`,
-      headers: {
-        'Authorization': `Bearer ${req.token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      json: {"uris": playlist}
-    }, (err, response, body) => {
-      res.status(200).end();
-    });
-  } catch (e) {
-    res.status(500);
+exports.setPlay = (token, playlist) => {
+  const requestOpt = {
+    url: `https://api.spotify.com/v1/me/player/play`,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    json: {
+      "uris": playlist
+    }
   }
+  return request.put(requestOpt);
+}
+exports.getUserData = (token) => {
+  const requestOpt = {
+    url: 'https://api.spotify.com/v1/me',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }
+  return request.get(requestOpt);
 }
 
-exports.getUserData = async (req, res ) => { 
-  try {
-    request.get({
-      url: 'https://api.spotify.com/v1/me',
-      headers: {
-        'Authorization': `Bearer ${req.token}`
-      }
-    }, (err, response, body) => {
-      res.status(200);
-      res.send(body);
-    });
-  } catch (e) {
-    res.status(500);
+exports.transferPlayback = (token, deviceId) => {
+  const requestOpt = {
+    uri: 'https://api.spotify.com/v1/me/player',
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'device_ids': [deviceId],
+      'play': false,
+    })
   }
-}
-
-exports.transferPlayback = (req, res) => {
-  try {
-    const { deviceId } = req.params;
-    request.put({
-      uri: 'https://api.spotify.com/v1/me/player',
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${req.token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'device_ids': [deviceId],
-        'play': false,
-      })
-    });
-    res.status(200).end();
-  } catch (e) {
-    res.status(500);
-  }
+  return request.put(requestOpt);
 }
 
 // USED FOR DATABASE SEEDING
