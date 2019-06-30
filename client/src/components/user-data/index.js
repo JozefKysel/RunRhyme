@@ -12,7 +12,7 @@ function UserData({ getBpmPlaylist }) {
 
   const pace = Math.round((time/distance) * 10) / 10;
 
-  // needs to be refactored after reorganizing of data in db 
+  // needs to be refactored after reorganization of data in db 
   const calcBpm = () => {
     if (pace <= 4) return 171;
     else if (pace <= 5) return 166;

@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "less": "^3.9.0"
+    "less": "^3.9.0",
+    "passport-mock-strategy": "^2.0.0"
   }
 }

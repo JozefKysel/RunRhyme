@@ -18,16 +18,6 @@ function Login(props) {
       .catch(e => console.log(e));
   }, []);
 
-  // const handleClick = async () => {
-  //   await api.getAccess();
-  //   api.getTokens()
-  //     .then(res => res.json())
-  //     .then(res => api.refreshTokens(res))
-  //     .then(res => res.json())
-  //     .then(res => saveTokenAndRedirect(res))
-  //     .catch(e => console.log(e));
-  // }
-
   return (
     <div className="container">
       <a href='http://localhost:4000/login'><button className="login">Login with spotify</button></a>

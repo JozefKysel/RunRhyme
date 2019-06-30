@@ -36,6 +36,8 @@ exports.refreshTokens =  (token) => {
 }
 
 exports.setPlay = (token, playlist) => {
+  playlist = playlist.map(song => `spotify:track:${song}`);
+  console.log(playlist);
   const requestOpt = {
     url: `https://api.spotify.com/v1/me/player/play`,
     headers: {

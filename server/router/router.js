@@ -2,11 +2,7 @@ const controller = require('../controllers/controller');
 const api = require('../api-client');
 const express = require('express');
 const router = express.Router();
-
-const verifyToken = (req, res, next) => {
-  req.token = req.headers.authorization.split(' ')[1];
-  next();
-}
+const { verifyToken } = require('./helpers');
 
 router.get('/tokens', controller.getTokens);
 router.get('/login', controller.getAccess);

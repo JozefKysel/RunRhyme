@@ -27,9 +27,9 @@ function Dashboard() {
 
   const addToMyPlaylist = pickedSong => {
     pickedSong.my = !pickedSong.my;
-    !myPlaylist.some(song => song.split(':')[2] === pickedSong.song_id)
-      ? setMyPlaylist(myPlaylist => [...myPlaylist, `spotify:track:${pickedSong.song_id}`])
-      : setMyPlaylist(myPlaylist.filter(element => element.split(':')[2] !== pickedSong.song_id));
+    !myPlaylist.some(song => song === pickedSong.song_id)
+      ? setMyPlaylist(myPlaylist => [...myPlaylist, pickedSong.song_id])
+      : setMyPlaylist(myPlaylist.filter(song => song !== pickedSong.song_id));
   }
 
   const logOut = () => {
@@ -38,7 +38,7 @@ function Dashboard() {
   }
 
   const playDefault = () => {
-    playList.length > 0 && api.setPlay(playList.map(song => `spotify:track:${song.song_id}`));
+    playList.length > 0 && api.setPlay(playList.map(song => song.song_id));
   };
 
   const playChosen = () => {
@@ -50,18 +50,22 @@ function Dashboard() {
       addToMyPlaylist,
       myPlaylist
     }}>
-    <div className='container'>
-      <Link to='/login'><button className="logout" onClick={logOut}>Log Out</button></Link>
-      <div className='upview'>
+    <div className='content'>
+      <div className='navbar'>
         {userInfo !== {} && <UserInfo className='userInfo' userInfo={userInfo}/>}
-        <UserData className="data" getBpmPlaylist={getBpmPlaylist}/>
+        <Link to='/login'><button className="logout" onClick={logOut}>Log Out</button></Link>
       </div>
-      <SongList playList={playList}/>
-      <div className="buttons">
-        <button className="chosen" onClick={playChosen}>Play chosen</button>
-        <button className="chosen" onClick={playDefault}>Play default</button>
+      <div className='container'>
+        <div className='upview'>
+          <UserData className="data" getBpmPlaylist={getBpmPlaylist}/>
+        </div>
+        <SongList playList={playList}/>
+        <div className="buttons">
+          <button className="chosen" onClick={playChosen}>Play chosen</button>
+          <button className="chosen" onClick={playDefault}>Play default</button>
+        </div>
+        <Player className="player"/>
       </div>
-      <Player className="player"/>
     </div>
     </SongsContext.Provider>
   );
