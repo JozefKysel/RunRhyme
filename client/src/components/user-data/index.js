@@ -12,6 +12,7 @@ function UserData({ getBpmPlaylist }) {
 
   const pace = Math.round((time/distance) * 10) / 10;
 
+  // this should be linear function
   // needs to be refactored after reorganization of data in db 
   const calcBpm = () => {
     if (pace <= 4) return 171;
