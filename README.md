@@ -12,8 +12,9 @@ Follow the instructions supplied below them or on their links to get them up and
 
 1. Clone this repo and enter!
 
-   git clone https://github.com/JozefKysel/RunRhyme.git
    ```
+   git clone https://github.com/JozefKysel/RunRhyme.git
+   
    cd RunRhyme
    ```
 2. Frontend.
